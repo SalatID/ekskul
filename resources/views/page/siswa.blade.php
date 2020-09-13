@@ -75,9 +75,15 @@
       <div class="modal-body">
         <form method="post" action="/tambahSiswa" id="tambahSiswa">
           @csrf
-          <div class="form-group">
-    				<label>NIS</label>
-    				<input type="number" name="nis" class="form-control" placeholder="NIS">
+          <div class="row">
+    				<div class="form-group col-sm-6">
+    					<<label>NIS</label>
+      				<input type="number" name="nis" class="form-control" placeholder="NIS">
+    				</div>
+    				<div class="form-group  col-sm-6">
+              <label>Email</label>
+      				<input type="email" name="email" class="form-control" placeholder="Email">
+    				</div>
     			</div>
           <div class="row">
     				<div class="form-group col-sm-6">

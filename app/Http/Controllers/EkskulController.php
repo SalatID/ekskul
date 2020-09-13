@@ -35,7 +35,7 @@ class EkskulController extends Controller
           JOIN tb_siswa b ON a.`id_siswa` = b.`id`
           JOIN tb_kelas c ON c.`id_kelas` = b.`id_kelas`
           LEFT JOIN tb_absen d ON d.`id_siswa` = b.`id` AND DATE=DATE(NOW())
-          WHERE a.id_ekskul='".$id_ekskul."'
+          WHERE a.id_ekskul='".$id_ekskul."' ".(SESSION::get('userData')['userData']['level']==3? " and b.id = '".SESSION::get('userData')['userData']['user_id']."'":'')."
           order by b.nama_siswa";
       } else {
         $queryEkskul = "SELECT id_member, b.`nama_siswa`, b.`tempat_lahir`, b.`tgl_lahir`,b.`alamat`, c.`nama`,b.id,d.id_absen,IFNULL(d.`status`,0) status,DATE tglLatihan,d.absen_time
@@ -43,7 +43,7 @@ class EkskulController extends Controller
           JOIN tb_siswa b ON a.`id_siswa` = b.`id`
           JOIN tb_kelas c ON c.`id_kelas` = b.`id_kelas`
           LEFT JOIN tb_absen d ON d.`id_siswa` = b.`id`  AND d.`id_jadwal`='".$id_jadwal."' AND DATE=".($tglLatihan==null?"DATE(NOW())":"'".$tglLatihan."'")."
-          WHERE a.id_ekskul='".$id_ekskul."'
+          WHERE a.id_ekskul='".$id_ekskul."' ".(SESSION::get('userData')['userData']['level']==3? " and b.id = '".SESSION::get('userData')['userData']['user_id']."'":'')."
           order by b.nama_siswa";
       }
       return DB::select($queryEkskul);
@@ -122,9 +122,15 @@ class EkskulController extends Controller
         FROM tb_absen a
         JOIN tb_jad b ON a.`id_jadwal` = b.`id_jadwal`
         JOIN tb_ekskul c ON b.`id_ekskul` = c.`id_ekskul`
+        ".(SESSION::get('userData')['userData']['level']==3? " and a.id_siswa = '".SESSION::get('userData')['userData']['user_id']."'":'')."
         GROUP BY DATE,c.`nama`,b.`starting_hour`,b.`finishing_hour`,b.`hari`,b.`id_jadwal`,b.`id_ekskul`";
         $dataEkskul =  DB::select($queryEkskul);
-        $listEkskul = Ekskul::get();
+        if (SESSION::get('userData')['userData']['level']==3) {
+          $listEkskul = Ekskul::join('tb_member_ekskul as a','a.id_ekskul','tb_ekskul.id_ekskul')->where('a.id_siswa',SESSION::get('userData')['userData']['user_id'])->get();
+        }else {
+          $listEkskul = Ekskul::get();
+        }
+
       return view('page.reportAbsen',compact('dataEkskul','listEkskul'));
     }
 
@@ -155,8 +161,9 @@ class EkskulController extends Controller
         	SELECT COUNT(id_siswa) totalAbsen, id_siswa,DAY(absen_time)tgl,a.id_jadwal
         	FROM tb_absen a
         	JOIN tb_jad b ON a.`id_jadwal` = b.id_jadwal
-        	WHERE DATE_FORMAT(absen_time,'%m')='".$req->bulan."' AND DATE_FORMAT(absen_time,'%Y')='".$req->tahun."'  AND b.id_ekskul = '".$req->id_ekskul."'
-        	GROUP BY id_siswa,DAY(absen_time),id_jadwal
+        	WHERE DATE_FORMAT(absen_time,'%m')='".$req->bulan."' AND DATE_FORMAT(absen_time,'%Y')='".$req->tahun."'  AND b.id_ekskul = '".$req->id_ekskul."' ";
+        $query .= SESSION::get('userData')['userData']['level']==3? " and a.id_siswa = '".SESSION::get('userData')['userData']['user_id']."'":'';
+      	$query.="GROUP BY id_siswa,DAY(absen_time),id_jadwal
         ) AS X
         JOIN tb_siswa b ON x.id_siswa = b.`id`
         JOIN tb_kelas c ON c.`id_kelas` = b.`id_kelas`

@@ -22,6 +22,8 @@
                     </li>
                       @endif
                     @endif
+                    @if(Session::has('userData'))
+                      @if(SESSION::get('userData')['userData']['level']!=3)
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>Ekskul</span></a>
                         <ul class="collapse">
@@ -29,6 +31,8 @@
                             <li><a href="/ekskul/nilai">Nilai</a></li>
                         </ul>
                     </li>
+                    @endif
+                  @endif
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>Laporan
                             </span></a>

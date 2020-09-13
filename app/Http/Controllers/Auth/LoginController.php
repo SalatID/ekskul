@@ -54,10 +54,22 @@ class LoginController extends Controller
       if (Auth::attempt($credentials)) {
           // Authentication passed...
           //dd(Auth::user()->id_user);
-          $dataLogin = User::select('tb_user.*','a.nama_guru','a.nip','a.email')
+          $isAdmin = User::select('tb_user.*','a.nama_guru','a.nip','a.email')
                       ->join('tb_guru as a','a.id_guru','tb_user.id_user')
                       ->where('tb_user.id_user',Auth::user()->id_user)
-                      ->first();
+                      ->exists();
+          if ($isAdmin) {
+            $dataLogin = User::select('tb_user.*','a.nama_guru','a.nip','a.email')
+                        ->join('tb_guru as a','a.id_guru','tb_user.id_user')
+                        ->where('tb_user.id_user',Auth::user()->id_user)
+                        ->first();
+          } else {
+            $dataLogin = User::select('tb_user.*','a.nama_siswa as nama_guru','a.nis','a.email')
+                        ->join('tb_siswa as a','a.id','tb_user.id_user')
+                        ->where('tb_user.id_user',Auth::user()->id_user)
+                        ->first();
+          }
+
 
           $sessionValue = [
             "userData"=>[

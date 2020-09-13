@@ -47,6 +47,7 @@ class SiswaController extends Controller
       $data = [
         'nis' => $req->nis,
         'nisn' => $req->nisn,
+        'email'=>$req->email,
         'nipd' => $req->nipd,
         'nama_siswa' => $req->nama_siswa,
         'id_kelas' => $req->id_kelas,

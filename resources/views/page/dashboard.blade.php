@@ -5,8 +5,10 @@
 
  @section('content')
  <div class="main-content-inner">
+   <div class="sales-report-area mt-5 mb-5">
+   @if(Session::has('userData'))
+     @if(SESSION::get('userData')['userData']['level']!=3)
      <!-- sales report area start -->
-     <div class="sales-report-area mt-5 mb-5">
          <div class="row">
              <div class="col-md-6">
                  <div class="single-report mb-xs-30">
@@ -22,14 +24,23 @@
                  </div>
              </div>
          </div>
-         <div class="row mt-4"> 
+         <div class="row mt-4">
            <div class="col-md-12">
              <div class="single-report mb-xs-30">
                <div id="nilai-tertinggi" width="100%"></div>
              </div>
            </div>
          </div>
+     @else
+     <div class="row">
+         <div class="col-md-12">
+             <h2 class="text-center">Selamat Datang {{Session::has('userData')?SESSION::get('userData')['userData']['fullName']:''}}</h2>
+         </div>
+
      </div>
+     @endif
+   @endif
+ </div>
  </div>
  <script type="text/javascript">
  $(document).ready(function(){
