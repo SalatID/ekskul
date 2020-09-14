@@ -77,4 +77,11 @@ class LoginController extends Controller
       }
       return redirect('/')->with(["error"=>"001","message"=>"Password atau Username Salah"]);
     }
+
+    public function logOut()
+    {
+      Auth::logout();
+      Session::flush();
+      return redirect('/');
+    }
 }
