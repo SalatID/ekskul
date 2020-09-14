@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     protected $table = 'tb_user';
-    public $timestamps = false;
+    public $timestamps = false; 
     /**
      * The attributes that are mass assignable.
      *
