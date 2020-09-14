@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
 use Session;
-
+use App\User;
+use Illuminate\Support\Facades\Hash;
 class Siswa extends Model
 {
     protected $table = "tb_siswa";
@@ -26,6 +27,7 @@ class Siswa extends Model
           'nipd' => 'required',
           'nisn' => 'required',
           'nama_siswa' => 'required',
+          'email'=>'required|email',
           'id_kelas' => 'required',
           'jns_kel' => 'required',
           'alamat' => 'required',
@@ -51,7 +53,14 @@ class Siswa extends Model
         $data["created_user"]=SESSION::get('userData')['userData']['user_id'];
         //dd(self::insert($data));
         if (self::insert($data)) {
-          return ["error"=>false,"message"=>"Tambah Siswa Berhasil"];
+            $dataUser = [
+              "id_user"=>$data["id"],
+              "emailVal"=>$data['email'],
+              "password"=> Hash::make($data['nis']),
+              "levelId"=>3
+            ];
+            User::insertData($dataUser);
+            return ["error"=>false,"message"=>"Tambah Siswa Berhasil"];
         }
         return ["error"=>"001","message"=>"Tambah Siswa Gagal"];
       }

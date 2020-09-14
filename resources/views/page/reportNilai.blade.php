@@ -20,11 +20,11 @@
              <div class="row">
                <div class="col-sm-12">
                  <ul class="nav">
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link btn btn-secondary btn-rounded" data-toggle="tab" href="#siswa" id="tabSiswa">Siswa</a>
-                  </li>
+                  </li> -->
                   <li class="nav-item">
-                    <a class="nav-link btn btn-secondary btn-rounded" data-toggle="tab" href="#bulanan">Bulanan</a>
+                    <a class="nav-link btn btn-secondary btn-rounded" data-toggle="tab" href="#bulanan" id="tabBilanan">Bulanan</a>
                   </li>
                 </ul>
                </div>
@@ -33,7 +33,7 @@
              <div class="row">
                <div class="col-sm-12">
                  <div class="tab-content">
-                    <div id="siswa" class="tab-pane fade in ">
+                    <!-- <div id="siswa" class="tab-pane fade in ">
                       <div class="table-responsive">
                           <table class="table">
                               <thead class="bg-light">
@@ -58,7 +58,7 @@
                               </tbody>
                           </table>
                       </div>
-                    </div>
+                    </div> -->
                     <div id="bulanan" class="tab-pane fade">
                       <div class="table-responsive">
                           <table class="table">
@@ -82,7 +82,7 @@
                                     <td class="text-center">{{$data->telepon}}</td>
                                     <td class="text-center">{{$data->tgl_gabung}}</td>
                                     <td class="text-center">
-                                      <a href="/report/absen/bulanan?id_ekskul={{$data->id_ekskul}}" class="btn btn-success">View</a>
+                                      <a href="/report/nilai/bulanan?id_ekskul={{$data->id_ekskul}}" class="btn btn-success">View</a>
                                     </td>
                                   </tr>
                                 @endforeach
@@ -106,7 +106,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
-  $('#tabSiswa').click()
+  $('#tabBilanan').click()
 })
 
 </script>

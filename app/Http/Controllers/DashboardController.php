@@ -46,4 +46,16 @@ class DashboardController extends Controller
     	GROUP BY c.nama";
       return response()->json( DB::select($query));
   }
+
+  public function getMaxNilai ()
+  {
+    $query="SELECT MAX(nilai) isEkskul, concat( b.nama_siswa, ' (', c.`nama`,')') nama
+FROM tb_nilai a
+JOIN tb_siswa b ON a.id_siswa = b.id
+JOIN tb_kelas c ON c.`id_kelas` = b.`id_kelas`
+GROUP BY b.nama_siswa,c.`nama`
+ORDER BY MAX(nilai) DESC
+LIMIT 10";
+    return response()->json( DB::select($query));
+  }
 }
