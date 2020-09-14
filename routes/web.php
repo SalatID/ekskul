@@ -16,6 +16,8 @@
 });*/
 Route::get('/','Auth\LoginController@index');
 Route::post('/login','Auth\LoginController@validateLogin');
+Route::post('/editPass','Auth\LoginController@editPass');
+Route::get('/logout','Auth\LoginController@logOut');
 
 Route::get('/dashboard','DashboardController@index');
 /*Routing Siswa*/

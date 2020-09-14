@@ -12,6 +12,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     protected $table = 'tb_user';
+    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -77,5 +78,19 @@ class User extends Authenticatable
       }
       return ["error"=>"002","message"=>"Field ada yang kosong"];
       return User::create($data);
+    }
+
+    public static function updateData($data,$id)
+    {
+      //if (self::validateForm($data)) {
+        $data["updated_dt"]=date("Y-m-d H:i:s");
+        $data["updated_user"]=SESSION::get('userData')['userData']['user_id'];
+        //dd(self::insert($data));
+        if (self::where('id_user',$id)->update($data)) {
+          return ["error"=>false,"message"=>"Ganti Password Berhasil"];
+        }
+        return ["error"=>"001","message"=>"Ganti Password Gagal"];
+      //}
+      return ["error"=>"001","message"=>"Field ada yang kosong"];
     }
 }

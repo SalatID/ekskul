@@ -136,4 +136,40 @@
     </script>
 </body>
 
+<!-- Modal -->
+<div class="modal fade" id="editPass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form method="post" action="/editPass" id="editPassForm">
+          @csrf
+          <input type="hidden" name="id" value="{{Session::has('userData')?SESSION::get('userData')['userData']['user_id']:''}}">
+          <label for="">Change Password</label>
+          <div class="row">
+    				<div class="form-group col-sm-6">
+    					<label>New Password</label>
+      				<input type="password" name="newPass" class="form-control" placeholder="New Password">
+    				</div>
+    				<div class="form-group  col-sm-6">
+              <label>Re-Type</label>
+      				<input type="password" name="retype" class="form-control" placeholder="Re-Type">
+    				</div>
+    			</div>
+          
+    		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" onclick="$('#editPassForm').submit()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </html>

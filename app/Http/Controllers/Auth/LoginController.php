@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Session;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -95,5 +96,13 @@ class LoginController extends Controller
       Auth::logout();
       Session::flush();
       return redirect('/');
+    }
+
+    public function editPass(Request $req)
+    {
+      $data = [
+        "password"=>Hash::make($req->newPass)
+      ];
+      return redirect()->back()->with(User::updateData($data,$req->id));
     }
 }
